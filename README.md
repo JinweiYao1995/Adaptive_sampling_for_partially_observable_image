@@ -1,64 +1,89 @@
 # Adaptive_sampling_for_partially_observable_image
 
-To replicate the simulation results, one just needs to run 'Intergrate.R” file. We primarily utilized the ‘MASS’ and ‘RSpectra’ packages, along with the ‘source’ function, to access the other R files. 
+To replicate the simulation results, one just needs to run the `Intergrate.R` file. We primarily utilize the `MASS` and `RSpectra` packages, along with the `source` function, to access the other R files.
 
-Interpret the result: 
+## Interpret the Result
 
-The output of the simulation will be based on Setting I out-control pattern. The output from the 'Model1_simulation.R' correspond to fig.1(a) and 'Model2_simulation.R' correspond to fig.1(b) respectively. These outputs are combined in 'Intergrate.R’ to complete the fig.1 in the manuscript. The output will consist of 3 subplots in a single column, correspond ing to to the available sub-image r = 10,7,4 out of a total p = 25 sub-images. Each subplot will contain four lines representing the proposed MPFCA with Δ = 0.01 ,  FPCA with Δ = 0.01 methods and FPCA RS method, and finally, the MFPCA fully observed method, respectively. These line plots will show the mean-shift magnitude on the x-axis and corresponded ARL result on the y-axis.
+The output of the simulation is based on Setting I out-control pattern. The output from `Model1_simulation.R` corresponds to Fig. 1(a), and `Model2_simulation.R` corresponds to Fig. 1(b). These outputs are combined in `Intergrate.R` to complete Fig. 1 in the manuscript.
 
-The table A1 and A2 from the appendix study the ARL_1 results along with their standard errors, under difference choice of Δ = 0.01,0.05,0.1. These results are stored in variables “output1” and “output 2”. In these variables, ARL_1 information is found in every odd line, while the standard error is located in every even row. Furthermore, the ARL_1 and standard errors of the MFPCA fully observed method have been incorporated into Table A1 and A2 in the appendix. These augmented results can be located in the variables ‘full1’ and ‘full2’. 
+The output will consist of 3 subplots in a single column, corresponding to the available sub-images r = 10, 7, 4 out of a total of p = 25 sub-images. Each subplot will contain four lines representing:
+- Proposed MFPCA with Δ = 0.01
+- FPCA with Δ = 0.01
+- FPCA RS method
+- MFPCA fully observed method
 
-In terms of the time consumption of this sample code, we  compute ARL results based on 500 repetitions, which takes 12 hours for each model I and model II (total 25 hours). The reason for the long time consumption is that is that we essentially process 500*500 images. The time consumption will change proportionally to number of repetition be selected. For example,  it will only take approximates 5 hours to finish the same simulation, if the ARL results is computed based on 100 repetitions. One can adjust the number of ARL repetition in lines 122-142 in file 'Model1_simulation.R' (lines 120-140 in file 'Model2_simulation.R’) by changing the iteration number of “i” and the size of the storing array ‘oc_run’. 
+The x-axis shows the mean-shift magnitude, and the y-axis shows the corresponding ARL results.
 
-To replicate the other results in the paper, one can modify the simulation setting by going to “Model1_simulation.R” and “Model2_simulation.R”. The shift type can be switched between Setting I and Setting 2 by editing lines 75-85 in file 'Model1_simulation.R' and lines 70-80 in file 'Model2_simulation.R'. 
+Tables A1 and A2 in the appendix study the ARL₁ results and their standard errors under different choices of Δ = 0.01, 0.05, 0.1. These results are stored in the variables `output1` and `output2`, where ARL₁ values are in odd-numbered rows and standard errors in even-numbered rows. ARL₁ and standard error results for the MFPCA fully observed method are also included in these tables and are stored in `full1` and `full2`.
 
-Detailed of files layout and functions are also contained. The demo folders have 8 other files: 
+The simulation uses 500 repetitions for computing ARL, taking about 12 hours per model (approximately 25 hours total). This time is due to processing roughly 500×500 image samples. You can scale this down—for instance, 100 repetitions will take about 5 hours.
 
-1. top fpca.R: include methods required for ARL_1 for FPCA Δ = 0.01,0.05,0.1
-Which has following function: 
-	ARLi_init: helper function for initiate CUSUM chart 
-           Get_ARLi: Get running length under FPCA Δ
-           cusum_fpca: helper function for sample redistribution top-q framework
+To change the number of ARL repetitions, modify:
+- Lines 122–142 in `Model1_simulation.R`
+- Lines 120–140 in `Model2_simulation.R`
 
-2. top arl.R: include methods required for ARL_1 for MFPCA Δ = 0.01,0.05,0.1
-Which has following function: 
-	ARL_initial: helper function for initiate CUSUM chart 
-           Get_ARL: Get running length
-           cusum_stage: helper function for sample redistribution top-q framework
+Edit the loop variable `i` and the size of the array `oc_run`.
 
-3. top rs .R: include methods required for ARL_1 for Random Sampling method 
-Which has following function: 
-	RS_initial: helper function for initiate CUSUM chart 
-           RS_ARL: Get running length
-           cusum_RS:helper function for sample redistribution top-q framework
+## Modify the Simulation
 
-4. mfpca_estimation.R: 
-	mfpca_est: estimate MFPCA parameters with training samples 
-           mpfca_score: convert image sample into MFPCA scores 
+You can switch between Setting I and Setting II by editing:
+- Lines 75–85 in `Model1_simulation.R`
+- Lines 70–80 in `Model2_simulation.R`
 
-5. fpca_est.R: 
-	fpca_est: estimate FPCA parameters with training samples 
-           fpca_score: convert image sample into FPCA scores 	
+## File Structure and Function Summary
 
-6. Guess_L.R: implement binary search  to find control limits h, correspond to appendix Section C.
+The demo folder contains the following 8 files:
 
-Note: To approximate the control limits, one should use the correspond data generation model and estimated the MFPCA/FPCA parameters before proceeding. For the purpose of demonstration, we directly provide these limits in the sample codes. These limits can be examined by setting the mean shift magnitude to be 0 and retrieving ARL_0 results.
+1. **top_fpca.R**: Methods for ARL₁ using FPCA with Δ = 0.01, 0.05, 0.1  
+   Functions:
+   - `ARLi_init`: helper to initiate CUSUM chart  
+   - `Get_ARLi`: get running length  
+   - `cusum_fpca`: sample redistribution under top-q framework  
 
-7. Model1_simulation. R: include two functions to generate in-control and other control data 
-	Gen_X(): generate in-control samples from Model I 
-           Gen_OC(): generate out-control samples from Model I, and impose the out-control pattern of Setting I 
+2. **top_arl.R**: Methods for ARL₁ using MFPCA with Δ = 0.01, 0.05, 0.1  
+   Functions:
+   - `ARL_initial`: helper to initiate CUSUM chart  
+   - `Get_ARL`: get running length  
+   - `cusum_stage`: sample redistribution under top-q framework  
 
-8. Model2_simulation. R: include two functions to generate in-control and other control data 
-	Gen_X(): generate in-control samples from Model II
-        Gen_OC(): generate out-control samples from Model II, and impose the out-control pattern of Setting I 
+3. **top_rs.R**: Methods for ARL₁ using random sampling (RS) method  
+   Functions:
+   - `RS_initial`: helper to initiate CUSUM chart  
+   - `RS_ARL`: get running length  
+   - `cusum_RS`: sample redistribution under top-q framework  
 
+4. **mfpca_estimation.R**  
+   - `mfpca_est`: estimate MFPCA parameters using training samples  
+   - `mpfca_score`: convert image samples into MFPCA scores  
 
-The detail implementation can be referrred to this paper: https://www.tandfonline.com/doi/abs/10.1080/00224065.2023.2282512 
+5. **fpca_est.R**  
+   - `fpca_est`: estimate FPCA parameters using training samples  
+   - `fpca_score`: convert image samples into FPCA scores  
 
+6. **Guess_L.R**  
+   Implements binary search to find control limits `h` (related to Appendix Section C).  
+   **Note**: To approximate control limits, use the correct data generation model and estimate FPCA/MFPCA parameters. For demonstration, precomputed limits are provided. You can verify by setting the mean-shift magnitude to 0 and checking ARL₀ results.
+
+7. **Model1_simulation.R**  
+   Functions to generate in-control and out-of-control data for Model I:
+   - `Gen_X()`: in-control samples  
+   - `Gen_OC()`: out-of-control samples with Setting I pattern  
+
+8. **Model2_simulation.R**  
+   Functions to generate in-control and out-of-control data for Model II:
+   - `Gen_X()`: in-control samples  
+   - `Gen_OC()`: out-of-control samples with Setting I pattern  
+
+## Reference
+
+The detailed implementation can be found in the following paper:  
+https://www.tandfonline.com/doi/abs/10.1080/00224065.2023.2282512
+
+## Citation
 
 If you find this work useful, please consider citing:
 
-```bash
+```bibtex
 @article{yao2024adaptive,
   title={Adaptive sampling and monitoring of partially observed images},
   author={Yao, Jinwei and Balasubramaniam, Badrinath and Li, Beiwen and Kreiger, Eric L and Wang, Chao},
@@ -69,3 +94,4 @@ If you find this work useful, please consider citing:
   year={2024},
   publisher={Taylor \& Francis}
 }
+
