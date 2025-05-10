@@ -51,3 +51,20 @@ Note: To approximate the control limits, one should use the correspond data gene
 8. Model2_simulation. R: include two functions to generate in-control and other control data 
 	Gen_X(): generate in-control samples from Model II
         Gen_OC(): generate out-control samples from Model II, and impose the out-control pattern of Setting I 
+
+
+The detail implementation can be referrred to this paper: https://www.tandfonline.com/doi/abs/10.1080/00224065.2023.2282512 
+
+
+If you find this work useful, please consider citing:
+
+@article{yao2024adaptive,
+  title={Adaptive sampling and monitoring of partially observed images},
+  author={Yao, Jinwei and Balasubramaniam, Badrinath and Li, Beiwen and Kreiger, Eric L and Wang, Chao},
+  journal={Journal of Quality Technology},
+  volume={56},
+  number={2},
+  pages={157--173},
+  year={2024},
+  publisher={Taylor \& Francis}
+}
