@@ -58,7 +58,7 @@ The detail implementation can be referrred to this paper: https://www.tandfonlin
 
 If you find this work useful, please consider citing:
 
-@article{yao2024adaptive,
+`@article{yao2024adaptive,
   title={Adaptive sampling and monitoring of partially observed images},
   author={Yao, Jinwei and Balasubramaniam, Badrinath and Li, Beiwen and Kreiger, Eric L and Wang, Chao},
   journal={Journal of Quality Technology},
@@ -67,4 +67,4 @@ If you find this work useful, please consider citing:
   pages={157--173},
   year={2024},
   publisher={Taylor \& Francis}
-}
+}`
